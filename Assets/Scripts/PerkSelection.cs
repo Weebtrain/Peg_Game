@@ -11,7 +11,6 @@ public class PerkSelection : MonoBehaviour
 
     public void GeneratePerkButtons()
     {
-        Debug.Log("Going");
         List<string> availablePerks = new List<string>();
         switch(PowerUpVaraible.powers[perks.origin])
         {

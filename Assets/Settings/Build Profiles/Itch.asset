@@ -24,8 +24,10 @@ MonoBehaviour:
     m_path: Assets/Scenes/MainMenu.unity
   - m_enabled: 1
     m_path: Assets/Scenes/SelectStartingPower.unity
-  - m_enabled: 1
+  - m_enabled: 0
     m_path: Assets/Scenes/Win Loss Condition.unity
+  - m_enabled: 1
+    m_path: Assets/Scenes/PerkSelectionFix.unity
   - m_enabled: 1
     m_path: Assets/Scenes/Win.unity
   m_ScriptingDefines: []
