@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class PerkSelection : MonoBehaviour
 {
     [SerializeField] private string[] perkButtonNames;
-    [SerializeField] private GameObject[] perkButtons;
+    [SerializeField] private GameObject[] perkButtonsTexts;
+    [SerializeField] private GameObject[] perkButtons = new GameObject[2]; //0=left,1=right
     [SerializeField] private int[] perkButtonsIndex;
 
     public void GeneratePerkButtons()
@@ -19,7 +20,7 @@ public class PerkSelection : MonoBehaviour
                 availablePerks.Add("bonusFree");
                 if (PowerUpVaraible.powers[perks.spooky] == 0) availablePerks.Add("spooky");
                 else availablePerks.Add("spooky2");
-                if (PowerUpVaraible.powers[perks.exploding] != 0) availablePerks.Add("exploding");
+                if (PowerUpVaraible.powers[perks.exploding] == 0) availablePerks.Add("exploding");
                 else availablePerks.Add("exploding2");
                 break;
             case 1: //Fireball
@@ -36,23 +37,21 @@ public class PerkSelection : MonoBehaviour
         }
         int i = Random.Range(0, availablePerks.Count);
         string perk1 = availablePerks[i];
-        availablePerks.RemoveAt(Random.Range(0,availablePerks.Count));
+        availablePerks.RemoveAt(i);
 
         i = Random.Range(0, availablePerks.Count);
         string perk2 = availablePerks[i];
-        availablePerks.RemoveAt(Random.Range(0, availablePerks.Count));
+        availablePerks.RemoveAt(i);
 
         int iPerk1 = getButtonIndexFromName(perk1);
-        GameObject gPerk1 = Instantiate(perkButtons[iPerk1], transform.position, transform.rotation);
-        gPerk1.transform.parent = transform;
-        gPerk1.GetComponent<RectTransform>().position = new Vector3(-90,200,0);
-        gPerk1.GetComponent<Button>().onClick?.AddListener(() => IncreasePerk(perkButtonsIndex[iPerk1]));
+        GameObject gPerk1 = Instantiate(perkButtonsTexts[iPerk1], Vector3.zero, transform.rotation);
+        gPerk1.transform.SetParent(perkButtons[0].transform,false);
+        perkButtons[0].GetComponent<Button>().onClick?.AddListener(() => IncreasePerk(perkButtonsIndex[iPerk1]));
 
         int iPerk2 = getButtonIndexFromName(perk2);
-        GameObject gPerk2 = Instantiate(perkButtons[iPerk2], transform.position, transform.rotation);
-        gPerk2.transform.parent = transform;
-        gPerk1.GetComponent<RectTransform>().position = new Vector3(90, 200, 0);
-        gPerk1.GetComponent<Button>().onClick?.AddListener(() => IncreasePerk(perkButtonsIndex[iPerk2]));
+        GameObject gPerk2 = Instantiate(perkButtonsTexts[iPerk2], Vector3.zero, transform.rotation);
+        gPerk2.transform.SetParent(perkButtons[1].transform, false);
+        perkButtons[1].GetComponent<Button>().onClick?.AddListener(() => IncreasePerk(perkButtonsIndex[iPerk2]));
     }
 
     public void IncreasePerk(int p)
