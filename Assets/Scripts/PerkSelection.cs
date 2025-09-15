@@ -7,6 +7,7 @@ public class PerkSelection : MonoBehaviour
     [SerializeField] private string[] perkButtonNames;
     [SerializeField] private GameObject[] perkButtonsTexts;
     [SerializeField] private GameObject[] perkButtons = new GameObject[2]; //0=left,1=right
+    private GameObject[] perkButtonTextObjects = new GameObject[2];
     [SerializeField] private int[] perkButtonsIndex;
 
     public void GeneratePerkButtons()
@@ -44,19 +45,28 @@ public class PerkSelection : MonoBehaviour
 
         int iPerk1 = getButtonIndexFromName(perk1);
         GameObject gPerk1 = Instantiate(perkButtonsTexts[iPerk1], Vector3.zero, transform.rotation);
-        gPerk1.transform.SetParent(perkButtons[0].transform,false);
+        gPerk1.transform.SetParent(perkButtons[0].transform, false);
         perkButtons[0].GetComponent<Button>().onClick?.AddListener(() => IncreasePerk(perkButtonsIndex[iPerk1]));
+        perkButtonTextObjects[0] = gPerk1;
 
         int iPerk2 = getButtonIndexFromName(perk2);
         GameObject gPerk2 = Instantiate(perkButtonsTexts[iPerk2], Vector3.zero, transform.rotation);
         gPerk2.transform.SetParent(perkButtons[1].transform, false);
         perkButtons[1].GetComponent<Button>().onClick?.AddListener(() => IncreasePerk(perkButtonsIndex[iPerk2]));
+        perkButtonTextObjects[1] = gPerk2;
     }
 
     public void IncreasePerk(int p)
     {
+        removeButtonTexts();
         PowerUpVaraible.IncreasePerk((perks)p);
         GameManager.game.LoadNextLevel();
+    }
+
+    private void removeButtonTexts()
+    {
+        GameObject.Destroy(perkButtonTextObjects[0]);
+        GameObject.Destroy(perkButtonTextObjects[1]);
     }
 
     private int getButtonIndexFromName(string name)
